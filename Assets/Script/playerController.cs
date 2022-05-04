@@ -6,19 +6,31 @@ public class playerController : MonoBehaviour
 {
 
     //variables jugador
-    public float jumpForce = 6f;
+    public float jumpForce = 4f;
     private Rigidbody2D rigidBody;
+
+
+
+    Animator animator;
+
+    const string STATE_ALIVE = "isAlive";
+    const string STATE_ON_THE_GROUND = "isOnTheGround";
+    const string IS_ON_DOWN = "isOnDown";
     public LayerMask groundMask;
 
      void Awake()
     {
         
         rigidBody = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     void Start()
     {
-        
+        // variables de las animaciones
+        animator.SetBool(STATE_ALIVE, true);
+        animator.SetBool(STATE_ON_THE_GROUND, true);
+        animator.SetBool(IS_ON_DOWN, false);
     }
 
     // Update is called once per frame
@@ -28,6 +40,11 @@ public class playerController : MonoBehaviour
         {
            Jump();
         }
+        animator.SetBool(STATE_ON_THE_GROUND, IsTouchingTheGround());
+        animator.SetBool(IS_ON_DOWN, !IsTouchingTheGround());
+
+        Debug.DrawRay(this.transform.position, Vector2.down*1.5f, Color.red);
+
     }
     // script del salto del personaje
     void Jump() {
@@ -52,4 +69,5 @@ public class playerController : MonoBehaviour
         }
     }
 
+ 
 }
