@@ -7,6 +7,7 @@ public class playerController : MonoBehaviour
 
     //variables jugador
     public float jumpForce = 4f;
+    public float runningSpeed = 2f;
     private Rigidbody2D rigidBody;
 
 
@@ -44,6 +45,17 @@ public class playerController : MonoBehaviour
         animator.SetBool(IS_ON_DOWN, !IsTouchingTheGround());
 
         Debug.DrawRay(this.transform.position, Vector2.down*1.5f, Color.red);
+
+    }
+
+    void FixedUpdate()
+    {
+        if (rigidBody.velocity.x < runningSpeed)
+        {
+            rigidBody.velocity = new Vector2(runningSpeed, //x
+                                          rigidBody.velocity.y); //y
+        }
+
 
     }
     // script del salto del personaje
