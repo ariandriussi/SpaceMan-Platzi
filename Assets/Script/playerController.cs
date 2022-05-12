@@ -8,7 +8,9 @@ public class playerController : MonoBehaviour
     //variables jugador
     public float jumpForce = 4f;
     public float runningSpeed = 2f;
+
     private Rigidbody2D rigidBody;
+   
 
 
 
@@ -16,7 +18,7 @@ public class playerController : MonoBehaviour
 
     const string STATE_ALIVE = "isAlive";
     const string STATE_ON_THE_GROUND = "isOnTheGround";
-    const string IS_ON_DOWN = "isOnDown";
+    const string GO_TO_LEFT = "goToLeft";
     public LayerMask groundMask;
 
      void Awake()
@@ -31,36 +33,47 @@ public class playerController : MonoBehaviour
         // variables de las animaciones
         animator.SetBool(STATE_ALIVE, true);
         animator.SetBool(STATE_ON_THE_GROUND, true);
-        animator.SetBool(IS_ON_DOWN, false);
+    
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space) ||Input.GetMouseButtonDown(0))
-        {
-           Jump();
-        }
+      
         animator.SetBool(STATE_ON_THE_GROUND, IsTouchingTheGround());
-        animator.SetBool(IS_ON_DOWN, !IsTouchingTheGround());
+        
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+        {
 
-        Debug.DrawRay(this.transform.position, Vector2.down*1.5f, Color.red);
+            Jump();
+        }
 
+        if (Input.GetAxis("Horizontal") < 0) // si se mueve a la izquierda 
+        {
+            GetComponent<SpriteRenderer>().flipX = true; // gira en el eje X el sprite
+        }
+        if (Input.GetAxis("Horizontal") > 0)// si se mueve a la derecha 
+        {
+            GetComponent<SpriteRenderer>().flipX = false; //no girar en el eje X el sprite
+        }
+
+
+
+        Debug.DrawRay(this.transform.position, Vector2.down*2f, Color.red);
+
+    
     }
 
     void FixedUpdate()
     {
-        if (rigidBody.velocity.x < runningSpeed)
-        {
-            rigidBody.velocity = new Vector2(runningSpeed, //x
-                                          rigidBody.velocity.y); //y
-        }
 
+        move();
 
     }
     // script del salto del personaje
     void Jump() {
-        if(IsTouchingTheGround()) {
+        if (IsTouchingTheGround()) {
             rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
        
@@ -70,7 +83,7 @@ public class playerController : MonoBehaviour
     // nos indica si el personaje está tocando o no el suelo
     bool IsTouchingTheGround()
     {
-        if(Physics2D.Raycast(this.transform.position, Vector2.down, 1.5f, groundMask))
+        if(Physics2D.Raycast(this.transform.position, Vector2.down, 2f, groundMask))
         {
             //TODO: progrmar lógica de contacto con el suelo
             return true;
@@ -80,6 +93,14 @@ public class playerController : MonoBehaviour
             return false;
         }
     }
+
+    void move()
+    {
+        rigidBody.velocity = new Vector2(Input.GetAxis("Horizontal") * runningSpeed, rigidBody.velocity.y);
+    }
+
+
+    
 
  
 }
