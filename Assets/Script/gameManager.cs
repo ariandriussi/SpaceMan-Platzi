@@ -7,10 +7,21 @@ public enum GameState {
     inGame,
     gameOver
 }
-public class gameManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
 
     public GameState currentGameState = GameState.menu;
+
+    public static GameManager instance;
+
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+        
+    }
     // Start is called before the first frame update
     void Start()
     {

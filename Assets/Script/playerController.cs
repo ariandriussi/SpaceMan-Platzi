@@ -96,6 +96,7 @@ public class playerController : MonoBehaviour
         if(Physics2D.Raycast(this.transform.position, Vector2.down, 3f, groundMask))
         {
             //TODO: programar lógica de contacto con el suelo
+            GameManager.instance.currentGameState = GameState.inGame;
             return true;
         } else
         {
