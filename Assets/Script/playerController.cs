@@ -24,6 +24,9 @@ public class playerController : MonoBehaviour
 
     const string STATE_ALIVE = "isAlive";
     const string STATE_ON_THE_GROUND = "isOnTheGround";
+
+
+    // variables de las mascaras
     public LayerMask groundMask;
 
      void Awake()
@@ -96,7 +99,7 @@ public class playerController : MonoBehaviour
         if(Physics2D.Raycast(this.transform.position, Vector2.down, 3f, groundMask))
         {
             //TODO: programar lógica de contacto con el suelo
-            GameManager.instance.currentGameState = GameState.inGame;
+           
             return true;
         } else
         {

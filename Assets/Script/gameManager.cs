@@ -7,12 +7,12 @@ public enum GameState {
     inGame,
     gameOver
 }
-public class GameManager : MonoBehaviour
+public class gameManager : MonoBehaviour
 {
 
     public GameState currentGameState = GameState.menu;
 
-    public static GameManager instance;
+    public static gameManager instance;
 
     private void Awake()
     {
@@ -31,22 +31,31 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetKeyDown(KeyCode.Return) && currentGameState == GameState.menu)
+        {
+            StartGame();
+        }
+
+       else if (Input.GetKeyDown(KeyCode.Return) && currentGameState == GameState.inGame) 
+        {
+            BackToMenu();
+        }
     }
 
     public void StartGame()
     {
+        SetGameState(GameState.inGame);
 
     }
 
     public void EndGame()
     {
-
+        SetGameState(GameState.gameOver);
     }
 
     public void BackToMenu()
     {
-
+        SetGameState(GameState.menu);
     }
 
     void SetGameState(GameState newGameState)
