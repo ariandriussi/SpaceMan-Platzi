@@ -40,6 +40,14 @@ public class gameManager : MonoBehaviour
         {
             BackToMenu();
         }
+
+       if (Input.GetKeyDown(KeyCode.P) && currentGameState == GameState.gameOver)
+       {
+           BackToMenu();
+       }
+
+
+        
     }
 
     public void StartGame()

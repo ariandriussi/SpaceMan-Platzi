@@ -28,8 +28,9 @@ public class playerController : MonoBehaviour
 
     // variables de las mascaras
     public LayerMask groundMask;
+    public LayerMask deadMask;
 
-     void Awake()
+    void Awake()
     {
         
         rigidBody = GetComponent<Rigidbody2D>();
@@ -48,6 +49,13 @@ public class playerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        // si la funcion DeadPlayer es true el player pasara a la pantalla de game over
+        if (DeadPlayer())
+        {
+            gameManager.instance.currentGameState = GameState.gameOver;
+            Destroy(gameObject);
+        }
 
         float x = Input.GetAxis("Horizontal");
         
@@ -93,27 +101,45 @@ public class playerController : MonoBehaviour
 
     }
 
+
     // nos indica si el personaje está tocando o no el suelo
     bool IsTouchingTheGround()
     {
         if(Physics2D.Raycast(this.transform.position, Vector2.down, 3f, groundMask))
         {
-            //TODO: programar lógica de contacto con el suelo
+            
            
             return true;
         } else
         {
-            //TODO: programar lógica de no contacto
+           
             return false;
         }
     }
 
-    void move()
+
+    // nos indica si el personaje a muerto
+    bool DeadPlayer()
+    {
+        if (Physics2D.Raycast(this.transform.position, Vector2.down, 3f, deadMask))
+        {
+           
+
+            return true;
+        }
+        else
+        {
+            
+            return false;
+        }
+    }
+    void move()        // codigo del movimiento del player
+
     {
 
         // opcion 1 
 
-         rigidBody.velocity = new Vector2(Input.GetAxis("Horizontal") * runningSpeed, rigidBody.velocity.y); // programa el movimiento del personaje
+         rigidBody.velocity = new Vector2(Input.GetAxis("Horizontal") * runningSpeed, rigidBody.velocity.y); // programa el movimiento del Player
 
 
         //opcion 2
