@@ -14,6 +14,7 @@ public class gameManager : MonoBehaviour
 
     public static gameManager instance;
 
+    private playerController controller;
     private void Awake()
     {
         if(instance == null)
@@ -25,36 +26,37 @@ public class gameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        controller = GameObject.Find("Player").GetComponent<playerController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return) && currentGameState == GameState.menu)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             StartGame();
         }
 
-        else if (Input.GetKeyDown(KeyCode.Return) && currentGameState == GameState.inGame)
+        else if (Input.GetKeyDown(KeyCode.P) && currentGameState == GameState.inGame)
         {
             BackToMenu();
-        }
-
-        else if (Input.GetKeyDown(KeyCode.R) && currentGameState == GameState.gameOver)
+        } else if (Input.GetKeyDown(KeyCode.P) && currentGameState == GameState.menu)
         {
-            StartGame();
+            SetGameState(GameState.inGame);
         }
-     
 
-        
+
+
+
+
     }
 
     public void StartGame()
     {
       
         SetGameState(GameState.inGame);
-       
+        controller.StartGame();
+
 
     }
 
@@ -77,7 +79,7 @@ public class gameManager : MonoBehaviour
             // colocar la lógica del menu
         } else if (newGameState == GameState.inGame)
         {
-
+            
         }
         else if (newGameState == GameState.gameOver)
         {

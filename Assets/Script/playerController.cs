@@ -17,6 +17,7 @@ public class playerController : MonoBehaviour
     Rigidbody2D rigidBody;
     SpriteRenderer spriteRenderer;
     Animator animator;
+    Vector3 startPosition;
 
     // variables de los boleanos
 
@@ -27,7 +28,7 @@ public class playerController : MonoBehaviour
 
     // variables de las mascaras
     public LayerMask groundMask;
-    public LayerMask deadMask;
+    
 
     void Awake()
     {
@@ -43,7 +44,13 @@ public class playerController : MonoBehaviour
         animator.SetBool(STATE_ALIVE, true);
         animator.SetBool(STATE_ON_THE_GROUND, true);
     
-        
+        startPosition = this.transform.position;    
+    }
+
+   public void StartGame()
+    {
+        this.transform.position = startPosition;
+        this.rigidBody.velocity = Vector2.zero;
     }
 
     // Update is called once per frame
@@ -93,7 +100,7 @@ public class playerController : MonoBehaviour
     }
     // script del salto del personaje
     void Jump() {
-        if (IsTouchingTheGround()) {
+        if (IsTouchingTheGround() && gameManager.instance.currentGameState == GameState.inGame) {
             rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse); // pregunta si está tocando el suelo para ejecutar el salto
 
             
@@ -169,7 +176,7 @@ public class playerController : MonoBehaviour
 
 
 
-       
+
     }
 
     public void Die()
