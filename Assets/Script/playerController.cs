@@ -12,18 +12,17 @@ public class playerController : MonoBehaviour
    
 
     
+    // variables componentes
 
-    private Rigidbody2D rigidBody;
-   
-
-
-
+    Rigidbody2D rigidBody;
+    SpriteRenderer spriteRenderer;
     Animator animator;
 
     // variables de los boleanos
 
     const string STATE_ALIVE = "isAlive";
     const string STATE_ON_THE_GROUND = "isOnTheGround";
+  
 
 
     // variables de las mascaras
@@ -32,9 +31,10 @@ public class playerController : MonoBehaviour
 
     void Awake()
     {
-        
+       
         rigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Start()
@@ -50,36 +50,37 @@ public class playerController : MonoBehaviour
     void Update()
     {
 
-        // si la funcion DeadPlayer es true el player pasara a la pantalla de game over
-        if (DeadPlayer())
-        {
-            gameManager.instance.currentGameState = GameState.gameOver;
-            Destroy(gameObject);
-        }
+    
+
+       Pause();
+       
 
         float x = Input.GetAxis("Horizontal");
         
 
-        animator.SetBool(STATE_ON_THE_GROUND, IsTouchingTheGround()); // cierta cantidad de veces por cada frame verificara si el boleano es verdadero o falso
-        
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+  
+
+        animator.SetBool(STATE_ON_THE_GROUND, IsTouchingTheGround());
+                                                                  // cierta cantidad de veces por cada frame verificara si los boleanos son verdaderos o falso
+
+        if (Input.GetButtonDown("Jump"))
         {
 
             Jump();
         }
 
-        if (x < 0) // si se mueve a la izquierda 
+        if (x < 0 && gameManager.instance.currentGameState == GameState.inGame) // si se mueve a la izquierda 
         {
-            GetComponent<SpriteRenderer>().flipX = true; // gira en el eje X el sprite
+            spriteRenderer.flipX = true; // gira en el eje X el sprite
         }
         else // si se mueve a la derecha 
         {
-            GetComponent<SpriteRenderer>().flipX = false; //no girar en el eje X el sprite
+            spriteRenderer.flipX = false; //no girar en el eje X el sprite
         }
 
 
 
-        Debug.DrawRay(this.transform.position, Vector2.down*3f, Color.red); // dibuja una linea para saber cuando el personaje toca el suelo
+        Debug.DrawRay(this.transform.position, Vector2.down*2.2f, Color.red); // dibuja una linea para saber cuando el personaje toca el suelo
 
     
     }
@@ -105,7 +106,7 @@ public class playerController : MonoBehaviour
     // nos indica si el personaje está tocando o no el suelo
     bool IsTouchingTheGround()
     {
-        if(Physics2D.Raycast(this.transform.position, Vector2.down, 3f, groundMask))
+        if(Physics2D.Raycast(this.transform.position, Vector2.down, 2.2f, groundMask))
         {
             
            
@@ -119,40 +120,62 @@ public class playerController : MonoBehaviour
 
 
     // nos indica si el personaje a muerto
-    bool DeadPlayer()
-    {
-        if (Physics2D.Raycast(this.transform.position, Vector2.down, 3f, deadMask))
-        {
-           
 
-            return true;
-        }
-        else
-        {
-            
-            return false;
-        }
-    }
     void move()        // codigo del movimiento del player
 
     {
 
         // opcion 1 
+        
+        
+            rigidBody.velocity = new Vector2(Input.GetAxis("Horizontal") * runningSpeed, rigidBody.velocity.y); // programa el movimiento del Player
 
-         rigidBody.velocity = new Vector2(Input.GetAxis("Horizontal") * runningSpeed, rigidBody.velocity.y); // programa el movimiento del Player
+        
+
+
 
 
         //opcion 2
 
-       // if (Input.GetKey(KeyCode.D))
-       // {
-       //     rigidBody.velocity = new Vector2(runningSpeed, rigidBody.velocity.y);
-       // }
-       //
-       // else if (Input.GetKey(KeyCode.A))
-       // {
-       //     rigidBody.velocity = Vector2.left * runningSpeed;
-       // }
+        // if (Input.GetKey(KeyCode.D))
+        // {
+        //     rigidBody.velocity = new Vector2(runningSpeed, rigidBody.velocity.y);
+        // }
+        //
+        // else if (Input.GetKey(KeyCode.A))
+        // {
+        //     rigidBody.velocity = Vector2.left * runningSpeed;
+        // }
+
+
+
+
+
+    }
+
+
+
+    void Pause()
+    {
+        if (gameManager.instance.currentGameState == GameState.inGame)
+        {
+            Time.timeScale = 1f;
+
+        }
+        else if (gameManager.instance.currentGameState == GameState.menu)
+        {
+            Time.timeScale = 0;
+        }
+
+
+
+       
+    }
+
+    public void Die()
+    {
+        animator.SetBool(STATE_ALIVE, false);
+        gameManager.instance.currentGameState = GameState.gameOver;   
     }
 
 
