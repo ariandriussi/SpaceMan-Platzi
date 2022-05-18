@@ -8,6 +8,7 @@ public class playerController : MonoBehaviour
     //variables jugador
     public float jumpForce = 4f;
     public float runningSpeed = 2f;
+   
 
    
 
@@ -41,18 +42,24 @@ public class playerController : MonoBehaviour
     void Start()
     {
         // variables de las animaciones
-        animator.SetBool(STATE_ALIVE, true);
-        animator.SetBool(STATE_ON_THE_GROUND, true);
+
     
         startPosition = this.transform.position;    
     }
 
    public void StartGame()
     {
+        animator.SetBool(STATE_ALIVE, true);
+        animator.SetBool(STATE_ON_THE_GROUND, true);
+
+        Invoke("RestarPosition", 0.1f);
+    }
+
+    void RestarPosition()
+    {
         this.transform.position = startPosition;
         this.rigidBody.velocity = Vector2.zero;
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -62,7 +69,7 @@ public class playerController : MonoBehaviour
        Pause();
        
 
-        float x = Input.GetAxis("Horizontal");
+        float ejeX = Input.GetAxis("Horizontal");
         
 
   
@@ -76,11 +83,11 @@ public class playerController : MonoBehaviour
             Jump();
         }
 
-        if (x < 0 && gameManager.instance.currentGameState == GameState.inGame) // si se mueve a la izquierda 
+        if (ejeX < 0 && gameManager.instance.currentGameState == GameState.inGame) // si se mueve a la izquierda 
         {
             spriteRenderer.flipX = true; // gira en el eje X el sprite
         }
-        else // si se mueve a la derecha 
+        else if (ejeX > 0 && gameManager.instance.currentGameState == GameState.inGame)// si se mueve a la derecha 
         {
             spriteRenderer.flipX = false; //no girar en el eje X el sprite
         }
@@ -182,7 +189,8 @@ public class playerController : MonoBehaviour
     public void Die()
     {
         animator.SetBool(STATE_ALIVE, false);
-        gameManager.instance.currentGameState = GameState.gameOver;   
+        gameManager.instance.currentGameState = GameState.gameOver;
+        
     }
 
 
