@@ -8,7 +8,7 @@ public class playerController : MonoBehaviour
     //variables jugador
     public float jumpForce = 4f;
     public float runningSpeed = 2f;
-   
+  
 
    
 
@@ -17,13 +17,15 @@ public class playerController : MonoBehaviour
 
     Rigidbody2D rigidBody;
     SpriteRenderer spriteRenderer;
-    Animator animator;
+     Animator animator;
     Vector3 startPosition;
 
     // variables de los boleanos
 
     const string STATE_ALIVE = "isAlive";
     const string STATE_ON_THE_GROUND = "isOnTheGround";
+    const string STATE_QUIET = "Quiet";
+    const string STATE_RUNING = "Moving";
   
 
 
@@ -41,7 +43,6 @@ public class playerController : MonoBehaviour
 
     void Start()
     {
-        // variables de las animaciones
 
     
         startPosition = this.transform.position;    
@@ -66,7 +67,6 @@ public class playerController : MonoBehaviour
 
     
 
-       Pause();
        
 
         float ejeX = Input.GetAxis("Horizontal");
@@ -75,8 +75,11 @@ public class playerController : MonoBehaviour
   
 
         animator.SetBool(STATE_ON_THE_GROUND, IsTouchingTheGround());
-                                                                  // cierta cantidad de veces por cada frame verificara si los boleanos son verdaderos o falso
+        // cierta cantidad de veces por cada frame verificara si los boleanos son verdaderos o falso
 
+
+
+        
         if (Input.GetButtonDown("Jump"))
         {
 
@@ -133,18 +136,43 @@ public class playerController : MonoBehaviour
     }
 
 
-    // nos indica si el personaje a muerto
+
 
     void move()        // codigo del movimiento del player
 
     {
 
         // opcion 1 
-        
-        
-            rigidBody.velocity = new Vector2(Input.GetAxis("Horizontal") * runningSpeed, rigidBody.velocity.y); // programa el movimiento del Player
 
-        
+        float isWalking = Input.GetAxis("Horizontal");
+
+        if (isWalking != 0)
+        { 
+
+            animator.SetBool(STATE_QUIET, false);
+            animator.SetBool(STATE_RUNING, true);
+            rigidBody.velocity = new Vector2(isWalking * runningSpeed, rigidBody.velocity.y); // si isWalking no es igual a 0 es que el personaje se está moviendo
+         
+           
+        }
+        else
+        {
+            animator.SetBool(STATE_QUIET, true);
+            animator.SetBool(STATE_RUNING, false);
+     
+        }
+
+
+
+       
+
+
+      
+
+
+
+
+
 
 
 
@@ -168,23 +196,7 @@ public class playerController : MonoBehaviour
     }
 
 
-
-    void Pause()
-    {
-        if (gameManager.instance.currentGameState == GameState.inGame)
-        {
-            Time.timeScale = 1f;
-
-        }
-        else if (gameManager.instance.currentGameState == GameState.menu)
-        {
-            Time.timeScale = 0;
-        }
-
-
-
-
-    }
+    // nos indica si el personaje a muerto
 
     public void Die()
     {

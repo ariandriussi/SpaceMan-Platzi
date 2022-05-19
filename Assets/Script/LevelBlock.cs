@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Idle : MonoBehaviour
+public class LevelBlock : MonoBehaviour
 {
+
+    public Transform startPoint, EndPoint;
     // Start is called before the first frame update
     void Start()
     {
