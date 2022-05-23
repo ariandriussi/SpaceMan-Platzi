@@ -35,29 +35,24 @@ public class LevelManager : MonoBehaviour
 
     public void AddLevelBlock()
     {
-        int ramdomIdx = Random.Range(0, allTheLevelBlock.Count);
-
-        LevelBlock block;
-        Vector3 spawnPosition = Vector3.zero;
+        int rand_i = Random.Range(0, allTheLevelBlock.Count);
+        LevelBlock newBlock;
+        Vector3 currentEndPosition;
 
         if (currentLevelBlocks.Count == 0)
         {
-            block = Instantiate(allTheLevelBlock[0]);
-            spawnPosition = levelStartPosition.position;
+            newBlock = Instantiate(allTheLevelBlock[0]);
+            currentEndPosition = levelStartPosition.position;
         }
         else
         {
-            block = Instantiate(allTheLevelBlock[ramdomIdx]);
-            spawnPosition = currentLevelBlocks[currentLevelBlocks.Count - 1].EndPoint.position;
+            newBlock = Instantiate(allTheLevelBlock[rand_i]);
+            currentEndPosition = currentLevelBlocks[currentLevelBlocks.Count - 1].EndPoint.position;
         }
 
-        block.transform.SetParent(this.transform, false);
-
-        Vector3 correction = new Vector3(spawnPosition.x - block.startPoint.position.x,
-            spawnPosition.y - block.startPoint.position.y, 0);
-
-        block.transform.position = correction;
-        currentLevelBlocks.Add(block);
+        newBlock.transform.SetParent(this.transform, false);
+        newBlock.transform.position = currentEndPosition - newBlock.startPoint.position;
+        currentLevelBlocks.Add(newBlock);
     }
 
     public void RemoveLevelBlock()
@@ -72,7 +67,7 @@ public class LevelManager : MonoBehaviour
 
     public void GenerateInitiaBlock()
     {
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 4; i++)
         {
            AddLevelBlock();
         }
