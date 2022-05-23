@@ -206,6 +206,11 @@ public class playerController : MonoBehaviour
     }
 
 
+    public void colision()
+    {
+
+    }
+
     
 
  
