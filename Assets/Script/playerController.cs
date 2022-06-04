@@ -202,14 +202,12 @@ public class playerController : MonoBehaviour
     {
         animator.SetBool(STATE_ALIVE, false);
         gameManager.instance.currentGameState = GameState.gameOver;
-        
+     
+
+
     }
 
 
-    public void colision()
-    {
-
-    }
 
     
 
