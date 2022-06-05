@@ -53,21 +53,27 @@ public class LevelManager : MonoBehaviour
         newBlock.transform.SetParent(this.transform, false);
         newBlock.transform.position = currentEndPosition - newBlock.startPoint.position;
         currentLevelBlocks.Add(newBlock);
+     
     }
 
     public void RemoveLevelBlock()
     {
-        
+        LevelBlock oldBlock = currentLevelBlocks[0];
+        currentLevelBlocks.Remove(oldBlock);
+        Destroy(oldBlock.gameObject);
     }
 
     public void RemoveAllLevelBlock()
     {
-
+        while (currentLevelBlocks.Count > 0)
+        {
+            RemoveLevelBlock();
+        }
     }
 
     public void GenerateInitiaBlock()
     {
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 2; i++)
         {
            AddLevelBlock();
         }

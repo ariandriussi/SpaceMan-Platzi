@@ -65,7 +65,7 @@ public class playerController : MonoBehaviour
     void Update()
     {
 
-    
+   
 
        
 
@@ -202,6 +202,7 @@ public class playerController : MonoBehaviour
     {
         animator.SetBool(STATE_ALIVE, false);
         gameManager.instance.currentGameState = GameState.gameOver;
+       
      
 
 

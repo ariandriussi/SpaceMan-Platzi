@@ -205,7 +205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1147663666}
-  ofset: {x: 0.2, y: 0, z: -10}
+  ofset: {x: 1.31, y: -2.77, z: -10}
   dampingTime: 0.3
   velocity: {x: 0, y: 0, z: 0}
 --- !u!20 &519420031
@@ -235,7 +235,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 8.189553
+  orthographic size: 9.77201
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -580,7 +580,7 @@ PrefabInstance:
     - target: {fileID: 2882206594411534921, guid: 999e8d0973fecf44ea99412d3e1d1a4f,
         type: 3}
       propertyPath: m_Size.y
-      value: 1.6660213
+      value: 0.9820118
       objectReference: {fileID: 0}
     - target: {fileID: 2882206594411534921, guid: 999e8d0973fecf44ea99412d3e1d1a4f,
         type: 3}
@@ -590,7 +590,7 @@ PrefabInstance:
     - target: {fileID: 2882206594411534921, guid: 999e8d0973fecf44ea99412d3e1d1a4f,
         type: 3}
       propertyPath: m_Offset.y
-      value: -5.4680247
+      value: -2.504344
       objectReference: {fileID: 0}
     - target: {fileID: 2882206594411534922, guid: 999e8d0973fecf44ea99412d3e1d1a4f,
         type: 3}
@@ -629,12 +629,12 @@ PrefabInstance:
     - target: {fileID: 8885060552211260604, guid: 035bfb8d979439b4297586c8785bb026,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -16.36
+      value: -24.46
       objectReference: {fileID: 0}
     - target: {fileID: 8885060552211260604, guid: 035bfb8d979439b4297586c8785bb026,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.97
+      value: -1.82
       objectReference: {fileID: 0}
     - target: {fileID: 8885060552211260604, guid: 035bfb8d979439b4297586c8785bb026,
         type: 3}

@@ -56,6 +56,7 @@ public class gameManager : MonoBehaviour
       
         SetGameState(GameState.inGame);
         controller.StartGame();
+        
 
 
     }
