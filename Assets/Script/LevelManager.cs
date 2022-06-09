@@ -8,7 +8,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager instance;
 
 
-    public List<LevelBlock> allTheLevelBlock = new List<LevelBlock> ();
+    public List<LevelBlock> allTheLevelBlock = new List<LevelBlock>();
     public List<LevelBlock> currentLevelBlocks = new List<LevelBlock>();
 
     public Transform levelStartPosition;
@@ -17,10 +17,10 @@ public class LevelManager : MonoBehaviour
 
     void Awake()
     {
-      if (instance == null)
+        if (instance == null)
         {
             instance = this;
-        }  
+        }
     }
     void Start()
     {
@@ -30,12 +30,19 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void AddLevelBlock()
     {
-        int rand_i = Random.Range(0, allTheLevelBlock.Count);
+
+        //int randomIdx = Random.Range(1, allTheLevelBlock.Count);
+        int previousLevelBlockIdx = 0, randomIdx = 0;
+
+        while (randomIdx == previousLevelBlockIdx)
+        {
+            randomIdx = Random.Range(1, allTheLevelBlock.Count);
+        }
         LevelBlock newBlock;
         Vector3 currentEndPosition;
 
@@ -46,14 +53,15 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            newBlock = Instantiate(allTheLevelBlock[rand_i]);
+            newBlock = Instantiate(allTheLevelBlock[randomIdx]);
             currentEndPosition = currentLevelBlocks[currentLevelBlocks.Count - 1].EndPoint.position;
         }
 
         newBlock.transform.SetParent(this.transform, false);
         newBlock.transform.position = currentEndPosition - newBlock.startPoint.position;
         currentLevelBlocks.Add(newBlock);
-     
+
+        previousLevelBlockIdx = randomIdx;
     }
 
     public void RemoveLevelBlock()
@@ -73,9 +81,9 @@ public class LevelManager : MonoBehaviour
 
     public void GenerateInitiaBlock()
     {
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 4; i++)
         {
-           AddLevelBlock();
+            AddLevelBlock();
         }
     }
 }

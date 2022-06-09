@@ -42,7 +42,7 @@ public class gameManager : MonoBehaviour
             BackToMenu();
         } else if (Input.GetKeyDown(KeyCode.P) && currentGameState == GameState.menu)
         {
-            SetGameState(GameState.inGame);
+            currentGameState = GameState.inGame;
         }
 
 
@@ -55,8 +55,9 @@ public class gameManager : MonoBehaviour
     {
       
         SetGameState(GameState.inGame);
-        controller.StartGame();
-        
+       
+
+
 
 
     }
@@ -80,14 +81,29 @@ public class gameManager : MonoBehaviour
             // colocar la lógica del menu
         } else if (newGameState == GameState.inGame)
         {
-            
+        
+
+            LevelManager.instance.RemoveAllLevelBlock();
+            Invoke(nameof(ReloadLevel), 0.1f);
+
+
+
         }
         else if (newGameState == GameState.gameOver)
         {
             // preparar el juego para el game over
+         
 
         }
 
      this.currentGameState = newGameState;
+
+
+    }
+
+    void ReloadLevel()
+    {
+        LevelManager.instance.GenerateInitiaBlock();
+        controller.StartGame();
     }
 }

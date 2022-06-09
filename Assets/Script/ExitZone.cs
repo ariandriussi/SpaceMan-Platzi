@@ -5,7 +5,7 @@ using UnityEngine;
 public class ExitZone : MonoBehaviour
 {
 
-    public int time = 5;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -23,8 +23,8 @@ public class ExitZone : MonoBehaviour
 
         if (collision.tag == "Player")
             {
-
-            Invoke("Destroy", time);
+            LevelManager.instance.RemoveLevelBlock();
+            LevelManager.instance.AddLevelBlock();
         }
 
             Debug.Log("debemos destruir los bloques anteriores");
@@ -32,10 +32,5 @@ public class ExitZone : MonoBehaviour
         
     }
 
-     void Destroy()
-    {
-
-        LevelManager.instance.RemoveLevelBlock();
-        LevelManager.instance.AddLevelBlock();
-    }
+   
 }
