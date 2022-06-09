@@ -36,13 +36,10 @@ public class LevelManager : MonoBehaviour
     public void AddLevelBlock()
     {
 
-        //int randomIdx = Random.Range(1, allTheLevelBlock.Count);
-        int previousLevelBlockIdx = 0, randomIdx = 0;
+        int randomIdx = Random.Range(1, allTheLevelBlock.Count);
+        
 
-        while (randomIdx == previousLevelBlockIdx)
-        {
-            randomIdx = Random.Range(1, allTheLevelBlock.Count);
-        }
+        
         LevelBlock newBlock;
         Vector3 currentEndPosition;
 
@@ -61,7 +58,6 @@ public class LevelManager : MonoBehaviour
         newBlock.transform.position = currentEndPosition - newBlock.startPoint.position;
         currentLevelBlocks.Add(newBlock);
 
-        previousLevelBlockIdx = randomIdx;
     }
 
     public void RemoveLevelBlock()
@@ -81,7 +77,7 @@ public class LevelManager : MonoBehaviour
 
     public void GenerateInitiaBlock()
     {
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 2; i++)
         {
             AddLevelBlock();
         }
