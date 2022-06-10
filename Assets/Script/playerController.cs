@@ -206,10 +206,18 @@ public class playerController : MonoBehaviour
     {
         animator.SetBool(STATE_ALIVE, false);
         gameManager.instance.currentGameState = GameState.gameOver;
-       
-     
 
 
+
+        Invoke("DiedMenu", 1f);
+
+
+    }
+
+    void DiedMenu()
+    {
+        MenuManager.instance.ShowDeadMenu();
+        MenuManager.instance.HideGameMenu();
     }
 
 

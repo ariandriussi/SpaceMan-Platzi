@@ -77,9 +77,13 @@ public class LevelManager : MonoBehaviour
 
     public void GenerateInitiaBlock()
     {
-        for (int i = 0; i < 2; i++)
+        if (gameManager.instance.currentGameState == GameState.inGame)
         {
-            AddLevelBlock();
+            for (int i = 0; i < 2; i++)
+            {
+                AddLevelBlock();
+            }
         }
+        
     }
 }

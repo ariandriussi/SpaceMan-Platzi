@@ -5,7 +5,8 @@ using UnityEngine;
 public enum GameState {
     menu,
     inGame,
-    gameOver
+    gameOver,
+    pause
 }
 public class gameManager : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class gameManager : MonoBehaviour
     public static gameManager instance;
 
     private playerController controller;
+
+
     private void Awake()
     {
         if(instance == null)
@@ -32,18 +35,34 @@ public class gameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && currentGameState == GameState.gameOver)
+        if (Input.GetKeyDown(KeyCode.P) && currentGameState == GameState.inGame)
         {
-            StartGame();
+
+            // Al tocar la P si el estado del juego está en inGame el estado de juego pasara a pause.
+            PauseGame();
+            
+        } else if (Input.GetKeyDown(KeyCode.P) && currentGameState == GameState.pause)
+        {
+            // Lo mismo que el anterior pero a la inversa
+            currentGameState=GameState.inGame;
+            
+            
+
         }
 
-        else if (Input.GetKeyDown(KeyCode.P) && currentGameState == GameState.inGame)
+        if (gameManager.instance.currentGameState == GameState.inGame)
         {
-            BackToMenu();
-        } else if (Input.GetKeyDown(KeyCode.P) && currentGameState == GameState.menu)
-        {
-            currentGameState = GameState.inGame;
+            Time.timeScale = 1f;
+           
+
         }
+        else if (gameManager.instance.currentGameState == GameState.menu) 
+        {
+            Time.timeScale = 0;
+            
+        }
+
+
 
 
 
@@ -74,16 +93,40 @@ public class gameManager : MonoBehaviour
        
     }
 
+    public void PauseGame()
+    {
+        SetGameState(GameState.pause);
+    }
+
     void SetGameState(GameState newGameState)
     {
         if (newGameState == GameState.menu)
         {
+            MenuManager.instance.HideDeadMenu();
+
+            MenuManager.instance.ShowMainMenu();
+
+            MenuManager.instance.HideGameMenu();
+           
+
+
+
+
+
             // colocar la lógica del menu
         } else if (newGameState == GameState.inGame)
         {
-        
+
+            MenuManager.instance.HideMainMenu();
+            MenuManager.instance.HideDeadMenu();
+            MenuManager.instance.ShowGameMenu();
+            
+
+
+
 
             LevelManager.instance.RemoveAllLevelBlock();
+      
             Invoke(nameof(ReloadLevel), 0.1f);
 
 
@@ -92,8 +135,14 @@ public class gameManager : MonoBehaviour
         else if (newGameState == GameState.gameOver)
         {
             // preparar el juego para el game over
-         
+            MenuManager.instance.ShowDeadMenu();
+            
 
+
+        }
+        else if (newGameState == GameState.pause)
+        {
+            Time.timeScale = 0;
         }
 
      this.currentGameState = newGameState;
