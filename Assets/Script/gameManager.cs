@@ -15,6 +15,8 @@ public class gameManager : MonoBehaviour
 
     public static gameManager instance;
 
+    public int collectedObject = 0;
+
     private playerController controller;
 
 
@@ -30,7 +32,8 @@ public class gameManager : MonoBehaviour
     void Start()
     {
         controller = GameObject.Find("Player").GetComponent<playerController>();
-    }
+        
+}
 
     // Update is called once per frame
     void Update()
@@ -120,12 +123,12 @@ public class gameManager : MonoBehaviour
             MenuManager.instance.HideMainMenu();
             MenuManager.instance.HideDeadMenu();
             MenuManager.instance.ShowGameMenu();
-            
+             collectedObject = 0;
 
 
 
 
-            LevelManager.instance.RemoveAllLevelBlock();
+    LevelManager.instance.RemoveAllLevelBlock();
       
             Invoke(nameof(ReloadLevel), 0.1f);
 
@@ -154,5 +157,10 @@ public class gameManager : MonoBehaviour
     {
         LevelManager.instance.GenerateInitiaBlock();
         controller.StartGame();
+    }
+
+    public void CollectObject(Collectable collectable)
+    {
+        collectedObject += collectable.value;
     }
 }

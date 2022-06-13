@@ -11,6 +11,10 @@ public class LevelManager : MonoBehaviour
     public List<LevelBlock> allTheLevelBlock = new List<LevelBlock>();
     public List<LevelBlock> currentLevelBlocks = new List<LevelBlock>();
 
+
+
+ 
+
     public Transform levelStartPosition;
     // Start is called before the first frame update
 
@@ -28,17 +32,22 @@ public class LevelManager : MonoBehaviour
     }
 
     // Update is called once per frame
+    
     void Update()
     {
-
+     
     }
+
+     int randomIdx, blocklast;
 
     public void AddLevelBlock()
     {
-
-        int randomIdx = Random.Range(1, allTheLevelBlock.Count);
+      
         
-
+        while (blocklast == randomIdx)
+        {
+            randomIdx = Random.Range(1, allTheLevelBlock.Count);
+        }
         
         LevelBlock newBlock;
         Vector3 currentEndPosition;
@@ -56,7 +65,10 @@ public class LevelManager : MonoBehaviour
 
         newBlock.transform.SetParent(this.transform, false);
         newBlock.transform.position = currentEndPosition - newBlock.startPoint.position;
+        //SpawnCoins(currentEndPosition);
         currentLevelBlocks.Add(newBlock);
+
+        blocklast = randomIdx;
 
     }
 
@@ -79,11 +91,40 @@ public class LevelManager : MonoBehaviour
     {
         if (gameManager.instance.currentGameState == GameState.inGame)
         {
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 3; i++)
             {
                 AddLevelBlock();
             }
         }
         
     }
+
+ 
+
+
+
+
+  //  void SpawnCoins(Vector3 spawn)
+  //  {
+  //      int randomGen = Random.Range(1, 10);
+  //      Vector3 spawnCoin = spawn;
+  //
+  //      for (int i = 0; i < randomGen; i++)
+  //      {
+  //          Instantiate (coinsppp);
+  //          spawnCoin = new Vector3(
+  //              spawnCoin.x + Random.Range(5, 10),
+  //              spawnCoin.y + Random.Range(-0.077f, 3.3f),
+  //              0
+  //          );
+  //          coinsppp.transform.SetParent(this.transform, false);
+  //          coinsppp.transform.position = spawnCoin;
+  //          if (spawnCoin.y > 10 || spawnCoin.y < -5)
+  //          {
+  //              spawnCoin.y = 0;
+  //          }
+  //      }
+  //  }
+
 }
+

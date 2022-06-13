@@ -108,8 +108,12 @@ public class playerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (gameManager.instance.currentGameState == GameState.inGame)
+        {
+            move();
 
-        move();
+        }
+        
 
     }
     // script del salto del personaje
@@ -148,7 +152,13 @@ public class playerController : MonoBehaviour
 
         // opcion 1 
 
-        float isWalking = Input.GetAxis("Horizontal");
+       
+        
+            float isWalking = Input.GetAxis("Horizontal");
+        
+
+
+       
 
         if (isWalking != 0)
         { 
@@ -206,18 +216,22 @@ public class playerController : MonoBehaviour
     {
         animator.SetBool(STATE_ALIVE, false);
         gameManager.instance.currentGameState = GameState.gameOver;
+        rigidBody.AddForce(Vector2.up * 60, ForceMode2D.Impulse);
 
 
+        Invoke("DiedMenu", 2f);
 
-        Invoke("DiedMenu", 1f);
+       
 
 
     }
 
     void DiedMenu()
     {
+        Time.timeScale = 0f;
         MenuManager.instance.ShowDeadMenu();
         MenuManager.instance.HideGameMenu();
+
     }
 
 
