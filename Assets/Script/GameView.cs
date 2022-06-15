@@ -5,14 +5,14 @@ using UnityEngine.UI;
 
 public class GameView : MonoBehaviour
 {
-
+    playerController controller;
   
 
     public Text coinsTxt, scoreTxt, maxScoreTxt;
     // Start is called before the first frame update
     void Start()
     {
-        
+        controller = GameObject.Find("Player").GetComponent<playerController>();
     }
 
     // Update is called once per frame
@@ -21,9 +21,14 @@ public class GameView : MonoBehaviour
         if (gameManager.instance.currentGameState == GameState.inGame)
         {
             int coins = gameManager.instance.collectedObject;
-            float score = 0;
-            float maxScore = 0;
+            float score = controller.GetTravelledDistance();
+            float maxScore = PlayerPrefs.GetFloat("maxscore", 0);
 
+         
+            
+
+
+           
             coinsTxt.text = coins.ToString();
            scoreTxt.text = "score: " + score.ToString("f1");
             maxScoreTxt.text = "max score: " + maxScore.ToString("f1");
@@ -31,8 +36,9 @@ public class GameView : MonoBehaviour
 
         else if (gameManager.instance.currentGameState == GameState.gameOver)
         {
-         
-           
+          
+
+
         }
         
     }

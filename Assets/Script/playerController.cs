@@ -232,6 +232,13 @@ public class playerController : MonoBehaviour
 
     public void Die()
     {
+        float travelledDistance = GetTravelledDistance();
+        float previousMaxDistance = PlayerPrefs.GetFloat("maxscore", 0f);
+
+        if (travelledDistance > previousMaxDistance)
+        {
+            PlayerPrefs.SetFloat("maxscore", travelledDistance);
+        }
         animator.SetBool(STATE_ALIVE, false);
         gameManager.instance.currentGameState = GameState.gameOver;
         coliderCapsule.enabled = false;
@@ -284,7 +291,10 @@ public class playerController : MonoBehaviour
     }
 
 
-
+    public float GetTravelledDistance()
+    {
+        return this.transform.position.x - startPosition.x;
+    }
     
 
  
