@@ -26,11 +26,17 @@ public class playerController : MonoBehaviour
     const string STATE_ON_THE_GROUND = "isOnTheGround";
     const string STATE_QUIET = "Quiet";
     const string STATE_RUNING = "Moving";
-  
 
+    int healthPoints, manaPoints;
+
+    public const int INITIAL_HEALTH = 100, INITIAL_MANA = 15, MAX_HEALTH = 200, MAX_MANA = 30, MIN_HEALTH = 10, MIN_MANA = 0;
 
     // variables de las mascaras
     public LayerMask groundMask;
+
+    CapsuleCollider2D coliderCapsule;
+
+    BoxCollider2D boxCollider;
     
 
     void Awake()
@@ -39,19 +45,30 @@ public class playerController : MonoBehaviour
         rigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        coliderCapsule = GetComponent<CapsuleCollider2D>();
+        boxCollider = GetComponent<BoxCollider2D>();
+        
     }
 
     void Start()
     {
 
     
-        startPosition = this.transform.position;    
+        startPosition = this.transform.position;
+        coliderCapsule.enabled = true;
+        boxCollider.enabled = false;
     }
 
    public void StartGame()
     {
         animator.SetBool(STATE_ALIVE, true);
         animator.SetBool(STATE_ON_THE_GROUND, true);
+
+        coliderCapsule.enabled = true;
+        boxCollider.enabled = false;
+
+        healthPoints = INITIAL_HEALTH;
+        manaPoints = INITIAL_MANA;
 
         Invoke("RestarPosition", 0.1f);
     }
@@ -212,11 +229,13 @@ public class playerController : MonoBehaviour
 
     // nos indica si el personaje a muerto
 
+
     public void Die()
     {
         animator.SetBool(STATE_ALIVE, false);
         gameManager.instance.currentGameState = GameState.gameOver;
-        rigidBody.AddForce(Vector2.up * 60, ForceMode2D.Impulse);
+        coliderCapsule.enabled = false;
+        boxCollider.enabled = true;
 
 
         Invoke("DiedMenu", 2f);
@@ -232,6 +251,36 @@ public class playerController : MonoBehaviour
         MenuManager.instance.ShowDeadMenu();
         MenuManager.instance.HideGameMenu();
 
+    }
+
+    public void CollectableHealth(int points)
+    {
+        this.healthPoints += points;
+
+        if (healthPoints >= MAX_HEALTH)
+        {
+            healthPoints = MAX_HEALTH;
+        }
+    }
+
+    public void CollectableMana(int points)
+    {
+        this.manaPoints += points;
+
+        if (manaPoints >= MAX_MANA)
+        {
+            manaPoints = MAX_MANA;
+        }
+    }
+
+    public int GetHealth()
+    {
+        return healthPoints;
+    }
+
+    public int GetMana()
+    {
+        return manaPoints;
     }
 
 

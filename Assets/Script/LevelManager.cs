@@ -12,7 +12,6 @@ public class LevelManager : MonoBehaviour
     public List<LevelBlock> currentLevelBlocks = new List<LevelBlock>();
 
 
-
  
 
     public Transform levelStartPosition;
@@ -29,6 +28,7 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         GenerateInitiaBlock();
+ 
     }
 
     // Update is called once per frame
@@ -65,7 +65,7 @@ public class LevelManager : MonoBehaviour
 
         newBlock.transform.SetParent(this.transform, false);
         newBlock.transform.position = currentEndPosition - newBlock.startPoint.position;
-        //SpawnCoins(currentEndPosition);
+      //  SpawnCoins(currentEndPosition);
         currentLevelBlocks.Add(newBlock);
 
         blocklast = randomIdx;
@@ -77,6 +77,7 @@ public class LevelManager : MonoBehaviour
         LevelBlock oldBlock = currentLevelBlocks[0];
         currentLevelBlocks.Remove(oldBlock);
         Destroy(oldBlock.gameObject);
+
     }
 
     public void RemoveAllLevelBlock()
@@ -106,7 +107,7 @@ public class LevelManager : MonoBehaviour
 
   //  void SpawnCoins(Vector3 spawn)
   //  {
-  //      int randomGen = Random.Range(1, 10);
+  //      int randomGen = Random.Range(1, 5);
   //      Vector3 spawnCoin = spawn;
   //
   //      for (int i = 0; i < randomGen; i++)

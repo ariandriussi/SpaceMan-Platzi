@@ -6,7 +6,8 @@ public enum CollectableType
 {
     healthPotion,
     manaPotion,
-    money
+    money,
+    deaPotion
 }
 public class Collectable : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class Collectable : MonoBehaviour
 
     public int value = 1;
 
+    GameObject player;
+
 
     private void Awake()
     {
@@ -27,22 +30,27 @@ public class Collectable : MonoBehaviour
         circleCollider = GetComponent<CircleCollider2D>();
     }
 
- 
-   public void Show()
+    private void Start()
+    {
+        player = GameObject.Find("Player");
+    }
+
+
+    public void Show()
     {
         sprite.enabled = true;
         circleCollider.enabled = true;
         hasBeenCollected = false;
     }
 
-    void Hide()
+   public void Hide()
     {
         sprite.enabled = false;
         circleCollider.enabled =false;
         hasBeenCollected = true;
     }
 
-   public void Collect()
+    public void Collect()
     {
         Hide();
         hasBeenCollected = true;
@@ -55,9 +63,18 @@ public class Collectable : MonoBehaviour
                 break;
 
                 case CollectableType.manaPotion:
+
+          
+                player.GetComponent<playerController>().CollectableMana(this.value);
                 break;
 
             case CollectableType.healthPotion:
+
+                player.GetComponent<playerController>().CollectableHealth(this.value);
+                break;
+
+            case CollectableType.deaPotion:
+                player.GetComponent<playerController>().Die();
                 break;
         }
     }

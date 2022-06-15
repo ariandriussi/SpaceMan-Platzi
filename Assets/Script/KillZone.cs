@@ -30,9 +30,13 @@ public class KillZone : MonoBehaviour
         if (collision.tag == "Player")
         {
             playerController controller = collision.GetComponent<playerController>();
-        
+            GameObject player = GameObject.Find("Player");
+
+
             controller.Die();
-        boxCollider.enabled = false;
+
+            player.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 60, ForceMode2D.Impulse);
+            boxCollider.enabled = false;
 
         }
     }
