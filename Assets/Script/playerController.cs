@@ -7,7 +7,7 @@ public class playerController : MonoBehaviour
 
     //variables jugador
     public float jumpForce = 4f;
-    public float runningSpeed = 2f;
+    public float runningSpeed = 50f;
   
 
    
@@ -30,6 +30,9 @@ public class playerController : MonoBehaviour
     int healthPoints, manaPoints;
 
     public const int INITIAL_HEALTH = 100, INITIAL_MANA = 15, MAX_HEALTH = 200, MAX_MANA = 30, MIN_HEALTH = 10, MIN_MANA = 0;
+
+    public const int RUNNING_COST = 1;
+    public float RUNNING_FORCE = 2f;
 
     // variables de las mascaras
     public LayerMask groundMask;
@@ -57,9 +60,13 @@ public class playerController : MonoBehaviour
         startPosition = this.transform.position;
         coliderCapsule.enabled = true;
         boxCollider.enabled = false;
+
+
+
     }
 
-   public void StartGame()
+  
+    public void StartGame()
     {
         animator.SetBool(STATE_ALIVE, true);
         animator.SetBool(STATE_ON_THE_GROUND, true);
@@ -71,6 +78,9 @@ public class playerController : MonoBehaviour
         manaPoints = INITIAL_MANA;
 
         Invoke("RestarPosition", 0.1f);
+
+
+     
     }
 
     void RestarPosition()
@@ -87,8 +97,7 @@ public class playerController : MonoBehaviour
     {
 
    
-
-       
+  
 
         float ejeX = Input.GetAxis("Horizontal");
         
@@ -127,10 +136,15 @@ public class playerController : MonoBehaviour
     {
         if (gameManager.instance.currentGameState == GameState.inGame)
         {
-            move();
+            move(false);
 
         }
-        
+
+        if (Input.GetButton("SuperRunning"))
+        {
+            move(true);
+        }
+
 
     }
     // script del salto del personaje
@@ -163,13 +177,18 @@ public class playerController : MonoBehaviour
 
 
 
-    void move()        // codigo del movimiento del player
+    void move(bool superRunning)        // codigo del movimiento del player
 
     {
-
+        float runningSpeedFactor = runningSpeed;
+        
         // opcion 1 
 
-       
+       if (superRunning && manaPoints >= RUNNING_COST)
+        {
+            manaPoints -= RUNNING_COST;
+            runningSpeedFactor *= RUNNING_FORCE;
+        }
         
             float isWalking = Input.GetAxis("Horizontal");
         
@@ -182,7 +201,7 @@ public class playerController : MonoBehaviour
 
             animator.SetBool(STATE_QUIET, false);
             animator.SetBool(STATE_RUNING, true);
-            rigidBody.velocity = new Vector2(isWalking * runningSpeed, rigidBody.velocity.y); // si isWalking no es igual a 0 es que el personaje se está moviendo
+            rigidBody.velocity = new Vector2(isWalking * runningSpeedFactor, rigidBody.velocity.y); // si isWalking no es igual a 0 es que el personaje se está moviendo
          
            
         }
@@ -193,22 +212,11 @@ public class playerController : MonoBehaviour
      
         }
 
-
-
-       
-
-
-      
+   
 
 
 
-
-
-
-
-
-
-        //opcion 2
+       //opcion 2
 
         // if (Input.GetKey(KeyCode.D))
         // {

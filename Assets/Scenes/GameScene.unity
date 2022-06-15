@@ -721,6 +721,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Health Potions
       objectReference: {fileID: 0}
+    - target: {fileID: 4837077938383608092, guid: e278a3be03d52fc4c8b17f3c21cb21c3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e278a3be03d52fc4c8b17f3c21cb21c3, type: 3}
 --- !u!1 &394452608
@@ -3124,6 +3129,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dead Potion
       objectReference: {fileID: 0}
+    - target: {fileID: 3797155925367324730, guid: 8c77d091f372e2749b9b275bcefc892e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c77d091f372e2749b9b275bcefc892e, type: 3}
 --- !u!1 &1984290202
@@ -3342,6 +3352,16 @@ PrefabInstance:
         type: 3}
       propertyPath: jumpForce
       value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 6709723366851913255, guid: 5071476efe2042447b1be65ba96e55b1,
+        type: 3}
+      propertyPath: runningSpeed
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6709723366851913255, guid: 5071476efe2042447b1be65ba96e55b1,
+        type: 3}
+      propertyPath: RUNNING_FORCE
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6709723366851913277, guid: 5071476efe2042447b1be65ba96e55b1,
         type: 3}

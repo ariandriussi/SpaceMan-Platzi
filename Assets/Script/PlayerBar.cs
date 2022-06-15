@@ -25,11 +25,11 @@ public class PlayerBar : MonoBehaviour
         switch (type)
         {
             case barType.healtBar:
-                barSlider.maxValue = playerController.MAX_HEALTH;
+                barSlider.maxValue = playerController.INITIAL_HEALTH;
 
                 break;
                 case barType.manaBar:
-                barSlider.maxValue = playerController.MAX_MANA;
+                barSlider.maxValue = playerController.INITIAL_MANA;
 
                 break;
         }
