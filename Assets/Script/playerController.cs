@@ -8,11 +8,11 @@ public class playerController : MonoBehaviour
     //variables jugador
     public float jumpForce = 4f;
     public float runningSpeed = 50f;
-  
-
-   
-
     
+
+
+
+
     // variables componentes
 
     Rigidbody2D rigidBody;
@@ -40,7 +40,9 @@ public class playerController : MonoBehaviour
     CapsuleCollider2D coliderCapsule;
 
     BoxCollider2D boxCollider;
-    
+
+ 
+
 
     void Awake()
     {
@@ -189,12 +191,12 @@ public class playerController : MonoBehaviour
             manaPoints -= RUNNING_COST;
             runningSpeedFactor *= RUNNING_FORCE;
         }
-        
-            float isWalking = Input.GetAxis("Horizontal");
-        
 
 
-       
+
+
+        float isWalking = Input.GetAxis("Horizontal");
+
 
         if (isWalking != 0)
         { 
