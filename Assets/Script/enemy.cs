@@ -15,6 +15,8 @@ public class enemy : MonoBehaviour
 
 {
 
+   public LayerMask targer;
+
 
     public MovementDirection direction = MovementDirection.horizontal;
     public float runningSpeed = 1.5f;
@@ -24,22 +26,21 @@ public class enemy : MonoBehaviour
 
     public bool facingRight = false;
     public bool facingUp = false;
+    public int damageEnemy = 40;
 
 
     private Vector3 startPosition;
 
-  
 
-   void Awake()
+
+    
+
+    void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
         startPosition = this.transform.position;
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        this.transform.position = startPosition;
-    }
+   
 
     // Update is called once per frame
     void FixedUpdate()
@@ -105,4 +106,24 @@ public class enemy : MonoBehaviour
         }
     }
 
+   
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            facingRight = !facingRight;
+            facingUp = !facingUp;
+
+
+           
+        }
+
+        if (collision.tag  == "Player")
+        {
+            GameObject.Find("Player").GetComponent<playerController>().CollectableHealth(-damageEnemy);
+        }
+
+    }
 }

@@ -8,7 +8,8 @@ public class playerController : MonoBehaviour
     //variables jugador
     public float jumpForce = 4f;
     public float runningSpeed = 50f;
-    
+    public float raycast = 2.2f;
+
 
 
 
@@ -17,7 +18,7 @@ public class playerController : MonoBehaviour
 
     Rigidbody2D rigidBody;
     SpriteRenderer spriteRenderer;
-     Animator animator;
+    Animator animator;
     Vector3 startPosition;
 
     // variables de los boleanos
@@ -36,29 +37,32 @@ public class playerController : MonoBehaviour
 
     // variables de las mascaras
     public LayerMask groundMask;
+    public LayerMask idleMask;
 
     CapsuleCollider2D coliderCapsule;
 
     BoxCollider2D boxCollider;
 
- 
+  
+    
+
 
 
     void Awake()
     {
-       
+
         rigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         coliderCapsule = GetComponent<CapsuleCollider2D>();
         boxCollider = GetComponent<BoxCollider2D>();
-        
+
     }
 
     void Start()
     {
 
-    
+
         startPosition = this.transform.position;
         coliderCapsule.enabled = true;
         boxCollider.enabled = false;
@@ -67,7 +71,7 @@ public class playerController : MonoBehaviour
 
     }
 
-  
+
     public void StartGame()
     {
         animator.SetBool(STATE_ALIVE, true);
@@ -82,7 +86,7 @@ public class playerController : MonoBehaviour
         Invoke("RestarPosition", 0.1f);
 
 
-     
+
     }
 
     void RestarPosition()
@@ -91,27 +95,27 @@ public class playerController : MonoBehaviour
         this.rigidBody.velocity = Vector2.zero;
         GameObject mainCamera = GameObject.Find("Main Camera");
         mainCamera.GetComponent<CamareFollow>().ResetCameraPosition();
-        
-        
+
+
     }
     // Update is called once per frame
     void Update()
     {
 
-   
-  
+
+
 
         float ejeX = Input.GetAxis("Horizontal");
-        
 
-  
+
+
 
         animator.SetBool(STATE_ON_THE_GROUND, IsTouchingTheGround());
         // cierta cantidad de veces por cada frame verificara si los boleanos son verdaderos o falso
 
 
 
-        
+
         if (Input.GetButtonDown("Jump"))
         {
 
@@ -129,9 +133,11 @@ public class playerController : MonoBehaviour
 
 
 
-        Debug.DrawRay(this.transform.position, Vector2.down*2.2f, Color.red); // dibuja una linea para saber cuando el personaje toca el suelo
+        Debug.DrawRay(this.transform.position, Vector2.down * raycast, Color.red); // dibuja una linea para saber cuando el personaje toca el suelo
 
-    
+
+
+
     }
 
     void FixedUpdate()
@@ -154,9 +160,9 @@ public class playerController : MonoBehaviour
         if (IsTouchingTheGround() && gameManager.instance.currentGameState == GameState.inGame) {
             rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse); // pregunta si está tocando el suelo para ejecutar el salto
 
-            
+
         }
-       
+
 
     }
 
@@ -164,18 +170,23 @@ public class playerController : MonoBehaviour
     // nos indica si el personaje está tocando o no el suelo
     bool IsTouchingTheGround()
     {
-        if(Physics2D.Raycast(this.transform.position, Vector2.down, 2.2f, groundMask))
+        if (Physics2D.Raycast(this.transform.position, Vector2.down, raycast, groundMask))
         {
-            
-           
+
+
             return true;
         } else
         {
-           
+
             return false;
         }
     }
 
+
+
+
+    
+  
 
 
 
@@ -207,10 +218,11 @@ public class playerController : MonoBehaviour
          
            
         }
-        else
+        else 
         {
             animator.SetBool(STATE_QUIET, true);
             animator.SetBool(STATE_RUNING, false);
+            rigidBody.velocity = new Vector2(0, rigidBody.velocity.y);
      
         }
 
@@ -278,6 +290,12 @@ public class playerController : MonoBehaviour
         {
             healthPoints = MAX_HEALTH;
         }
+
+        if (healthPoints <= 0)
+        {
+            Die();
+            healthPoints = INITIAL_HEALTH;
+        }
     }
 
     public void CollectableMana(int points)
@@ -306,6 +324,6 @@ public class playerController : MonoBehaviour
         return this.transform.position.x - startPosition.x;
     }
     
-
+    
  
 }

@@ -154,7 +154,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f5b1e74abf237444af9552092342e06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementDirection: 0
+  targer:
+    serializedVersion: 2
+    m_Bits: 256
+  direction: 0
+  runningSpeed: 1.5
   facingRight: 0
   facingUp: 0
-  runningSpeed: 1.5

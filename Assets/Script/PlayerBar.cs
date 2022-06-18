@@ -48,5 +48,9 @@ public class PlayerBar : MonoBehaviour
                 barSlider.value = GameObject.Find("Player").GetComponent<playerController>().GetMana();
                 break;
         }
+
+       
+
+        
     }
 }
