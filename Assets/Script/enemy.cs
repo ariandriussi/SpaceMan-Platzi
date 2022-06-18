@@ -40,7 +40,12 @@ public class enemy : MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();
         startPosition = this.transform.position;
     }
-   
+
+
+    private void Start()
+    {
+        GetComponent<AudioSource>().Play();
+    }
 
     // Update is called once per frame
     void FixedUpdate()

@@ -8,7 +8,7 @@ public class GameView : MonoBehaviour
     playerController controller;
   
 
-    public Text coinsTxt, scoreTxt, maxScoreTxt;
+    public Text coinsTxt, scoreTxt, maxScoreTxt, coinsDeadTxt, scoreDeadTxt;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,7 +37,8 @@ public class GameView : MonoBehaviour
         else if (gameManager.instance.currentGameState == GameState.gameOver)
         {
           
-
+            coinsDeadTxt.text = coinsTxt.text;
+            scoreDeadTxt.text = scoreTxt.text;
 
         }
         

@@ -60,12 +60,14 @@ public class Collectable : MonoBehaviour
             case CollectableType.money:
 
                 gameManager.instance.CollectObject(this);
+                GetComponent<AudioSource>().Play();
                 break;
 
                 case CollectableType.manaPotion:
 
           
                 player.GetComponent<playerController>().CollectableMana(this.value);
+
                 break;
 
             case CollectableType.healthPotion:

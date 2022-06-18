@@ -123,7 +123,8 @@ public class gameManager : MonoBehaviour
             MenuManager.instance.HideMainMenu();
             MenuManager.instance.HideDeadMenu();
             MenuManager.instance.ShowGameMenu();
-             collectedObject = 0;
+            GetComponent<AudioSource>().Play();
+            collectedObject = 0;
 
 
 

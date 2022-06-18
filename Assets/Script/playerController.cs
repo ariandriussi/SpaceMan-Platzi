@@ -42,9 +42,10 @@ public class playerController : MonoBehaviour
     CapsuleCollider2D coliderCapsule;
 
     BoxCollider2D boxCollider;
+    public AudioSource gameOver;
 
-  
-    
+
+
 
 
 
@@ -56,7 +57,8 @@ public class playerController : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         coliderCapsule = GetComponent<CapsuleCollider2D>();
         boxCollider = GetComponent<BoxCollider2D>();
-
+        gameOver = GetComponent<AudioSource>();
+        
     }
 
     void Start()
@@ -159,6 +161,7 @@ public class playerController : MonoBehaviour
     void Jump() {
         if (IsTouchingTheGround() && gameManager.instance.currentGameState == GameState.inGame) {
             rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse); // pregunta si está tocando el suelo para ejecutar el salto
+            GetComponent<AudioSource>().Play();
 
 
         }
@@ -256,6 +259,8 @@ public class playerController : MonoBehaviour
     {
         float travelledDistance = GetTravelledDistance();
         float previousMaxDistance = PlayerPrefs.GetFloat("maxscore", 0f);
+   
+       
 
         if (travelledDistance > previousMaxDistance)
         {
